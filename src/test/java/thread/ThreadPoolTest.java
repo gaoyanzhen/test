@@ -18,7 +18,7 @@ public class ThreadPoolTest {
 
     @Test
     public void single(){
-        Executors.newCachedThreadPool();
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     }
     @Test

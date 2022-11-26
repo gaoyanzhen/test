@@ -15,38 +15,33 @@ import java.util.concurrent.*;
 @Slf4j
 public class ThreadPoolTest {
 
+    ThreadFactory threadFactory = new ThreadFactoryBuilder()
+            .setNameFormat("ExecutorServiceShutdown-%d")
+            .setDaemon(true)
+            .build();
 
-    @Test
-    public void single(){
-        ExecutorService executorService = Executors.newSingleThreadExecutor();
-
-    }
     @Test
     public void executorServiceShutdown() {
         log.info("同步执行 start");
-        asynExecute1();
-        asynExecute2();
+        syncExecute1();
+        syncExecute2();
         log.info("同步执行 over");
     }
 
-    private void asynExecute1() {
-        ThreadFactory threadFactory = new ThreadFactoryBuilder()
-                .setNameFormat("ExecutorServiceShutdown-%d")
-//                .setDaemon(true)
-                .build();
-        ExecutorService executorService = new ThreadPoolExecutor(2, 10, 60L, TimeUnit.SECONDS, new LinkedBlockingDeque<>(), threadFactory);
+    private void syncExecute1() {
+        ExecutorService executorService = new ThreadPoolExecutor(2, 10, 60L, TimeUnit.SECONDS,
+                new LinkedBlockingDeque<>(), threadFactory);
         executorService.submit(() -> {
             log.info("异步执行1");
         });
+        executorService.shutdown();
     }
-    private void asynExecute2() {
-        ThreadFactory threadFactory = new ThreadFactoryBuilder()
-                .setNameFormat("ExecutorServiceShutdown-%d")
-                .setDaemon(true)
-                .build();
-        ExecutorService executorService = new ThreadPoolExecutor(2, 10, 60L, TimeUnit.SECONDS, new LinkedBlockingDeque<>(), threadFactory);
+    private void syncExecute2() {
+        ExecutorService executorService = new ThreadPoolExecutor(2, 10, 60L, TimeUnit.SECONDS,
+                new LinkedBlockingDeque<>(), threadFactory);
         executorService.submit(() -> {
-            log.info("异步执行1");
+            log.info("异步执行2");
         });
+        executorService.shutdown();
     }
 }

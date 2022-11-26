@@ -40,4 +40,14 @@ public class HashMapTest {
             System.out.println(key + ":" + value);
         });
     }
+    @Test
+    public void hashMapStream() {
+        Map<String, String> map = new HashMap<>(64);
+        map.put("123", "123");
+        map.put("123", "null");
+        map.entrySet().stream().filter(entry -> !"123".equals(entry.getKey())).forEach(entry ->{
+            System.out.println(entry.getKey());
+        });
+
+    }
 }

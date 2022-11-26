@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * 解析数学表达式
@@ -78,6 +79,13 @@ public class MathTest {
         System.out.println("threadDataSize:" +threadDataSize);
         System.out.println("threadDataSize:" +threadDataSize2);
         System.out.println("threadDataSize:" +threadDataSize3);
+    }
+
+    @Test
+    public void randomTest(){
+        Random random = new Random();
+        System.out.println(random.nextInt(10));
+        System.out.println(random.nextInt(10));
     }
 
 }

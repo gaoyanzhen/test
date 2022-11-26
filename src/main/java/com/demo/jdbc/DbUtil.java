@@ -1,8 +1,15 @@
 package com.demo.jdbc;
 
+import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.pool.DruidDataSourceFactory;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
+import java.util.Properties;
 
 /**
  * 数据库连接
@@ -22,6 +29,33 @@ public class DbUtil {
         String user = "root";
         String password = "root";
         return DriverManager.getConnection(url, user, password);
+    }
+    /**
+     * 获取Mysql数据库连接
+     *
+     * @return
+     */
+    public static DataSource getDataSource() {
+        Properties properties = new Properties();
+        InputStream is = DbUtil.class.getClassLoader().getResourceAsStream("druid.properties");
+        try {
+            properties.load(is);
+        } catch (IOException e) {
+            log.error("druid.properties文件读取异常");
+            return null;
+        }
+        log.info("druid.properties文件加载成功");
+        DataSource ds = null;
+        try {
+            if(properties.isEmpty()){
+                log.error("请配置druid.properties");
+                return null;
+            }
+            ds = DruidDataSourceFactory.createDataSource(properties);
+        } catch (Exception e) {
+            log.error("数据源创建异常");
+        }
+        return ds;
     }
 
     /**

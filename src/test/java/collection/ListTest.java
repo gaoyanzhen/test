@@ -35,7 +35,7 @@ public class ListTest {
     }
 
     @Test
-    public static void group() {
+    public void group() {
         List<String> list = new ArrayList<>();
         list.add("1");
         list.add("2");
@@ -48,6 +48,12 @@ public class ListTest {
         for (String key : collect.keySet()) {
             System.out.println(key + "=" + collect.get(key));
         }
+    }
+
+    @Test
+    public void streamTest() {
+        List<String> list = null;
+        list.stream().forEach(System.out::println);
     }
 
     public void collect() {
